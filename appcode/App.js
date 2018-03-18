@@ -3,6 +3,12 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import { ApolloClient, createNetworkInterface, ApolloProvider } from 'react-apollo';
+
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface({ uri: 'https://api.graph.cool/simple/v1/cje94sldh043d0121q135x4nj' }),
+});
+
 
 export default class App extends React.Component {
   state = {
@@ -12,19 +18,23 @@ export default class App extends React.Component {
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
+        <ApolloProvider client={client}>
+          <AppLoading
+            startAsync={this._loadResourcesAsync}
+            onError={this._handleLoadingError}
+            onFinish={this._handleFinishLoading}
+          />
+        </ApolloProvider>
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-          <RootNavigation />
-        </View>
+        <ApolloProvider client={client}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+            <RootNavigation />
+          </View>
+        </ApolloProvider>
       );
     }
   }

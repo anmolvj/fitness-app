@@ -9,8 +9,13 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "apollo-cache-inmemory": "^0.2.0-rc.4",
+    "apollo-client": "^2.0.0-rc.7",
+    "apollo-link-http": "^1.5.3",
     "expo": "^25.0.0",
+    "graphql": "^0.13.2",
     "react": "16.2.0",
+    "react-apollo": "^1.4.16",
     "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-atoz-listview": "0.0.7",
     "react-native-elements": "^1.0.0-beta2",

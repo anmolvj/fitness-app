@@ -4,6 +4,7 @@ import { ExpoLinksView } from '@expo/samples';
 import Header from '../components/Header';
 import BarcodeScannerExample from '../components/BarcodeScannerExample';
 import { SearchBar, Card, Button } from 'react-native-elements'
+import { APP_KEY, APP_ID } from '../components/ApiKeys';
 
 export default class MealScreen extends React.Component {
   static navigationOptions = {
@@ -29,6 +30,10 @@ export default class MealScreen extends React.Component {
   };
 
   _handleOnClearText = () => {
+    
+  };
+
+  _handleGetIngridient = (ingr) => {
     
   };
 
