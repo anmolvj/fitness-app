@@ -1,86 +1,54 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import Header from '../components/Header';
 import BarcodeScannerExample from '../components/BarcodeScannerExample';
-import { SearchBar, Card, Button } from 'react-native-elements'
+import { SearchBar, Card, Button, List, ListItem } from 'react-native-elements'
 import { APP_KEY, APP_ID } from '../components/ApiKeys';
+import IngrList from '../components/EnhancedIngrList';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 
 class MealScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {ingr: ""};
+  }
+
   static navigationOptions = {
     title: 'Meal',
   };
-  static propTypes = {
-    data: PropTypes.shape({
-      loading: PropTypes.bool,
-      error: PropTypes.object,
-      getIngridient: PropTypes.array,
-    }).isRequired,
-  }
+ 
 
   render() {
-    if (this.props.data.error) {
-      console.log(this.props.data.error)
-      return (<View ><Text>An unexpected error occurred</Text></View>)
-    }
-
-    if (this.props.data.loading || !this.props.data.getIngridient) {
-      return (<View ><Text>Loading</Text></View>)
-    }
-    
-    console.log(this.props.data.getIngridient.map((elm)=>{return elm.label;}))
     return (
       <ScrollView style={styles.container}>
-      <SearchBar
-            lightTheme
-            onChangeText={this._handleOnChangeText()}
-            onClearText={this._handleOnChangeText()}
-            placeholder='Type Here...' />
-       {/*<BarcodeScannerExample />*/}
-       <View >
-        <Text>
-          {this.props.data.getIngridient.map((elm)=>{return elm.label;})}
-        </Text>
-       </View>    
+      <TextInput
+        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+        onChangeText={(text) => {this._handleOnChangeText(text)}
+        
+      }
+        value={this.state.ingr}
+      />
+
+        {/*<BarcodeScannerExample />*/}
+        <IngrList currentIngr={this.state.ingr ? this.state.ingr : "Banana"} />
       </ScrollView>
     );
   }
 
-  _handleOnChangeText = () => {
-    
-  };
-
-  _handleOnClearText = () => {
-    
-  };
-
-  _handleGetIngridient = (ingr) => {
+  _handleOnChangeText = (text) => {
+    this.setState({ingr: text},()=>{
+      console.log(this.state.ingr)
+    });
     
   };
 
 }
 
-const Query = gql`
-  query Query($ingr: String!) {
-    getIngridient(ingr: $ingr) {
-      label
-    }
-  }
-`
 
-const ScreenWithData = graphql(Query, {
-  options: {
-      variables: {
-        ingr: "apple"
-      }
-    }
-  }
-)(MealScreen)
-
-export default ScreenWithData;
+export default MealScreen;
 
 const styles = StyleSheet.create({
   container: {
