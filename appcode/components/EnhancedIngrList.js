@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, Modal, Button } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Modal, Button, ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -28,19 +28,17 @@ constructor(props) {
       measures: [],
       measure: "pound"
     };
-    this.parentAlert = this.parentAlert.bind(this);
+    this.itemClickHandler = this.itemClickHandler.bind(this);
   }
 
-  parentAlert(food_uri){
-    this.setState({barcodeModalVisible:true})
+  itemClickHandler(food_uri){
+    this.handleFoodListItemClick(food_uri);
   }
 
 
 setBarcodeModalVisible(visible) {
   this.setState({barcodeModalVisible: visible});
 } 
-
-
 
 handleFoodListItemClick(food_uri) {
   this.setState({modalFoodUri: food_uri},()=>{
@@ -72,20 +70,18 @@ handleFoodListItemClick(food_uri) {
     let listData = this.props.data.getIngridient.map((elm)=>{
       return ({ "label" : elm.label, food_uri: elm.food_uri, "measures": elm.measures});
     })
+    
     return (
+    
       <View>
-
       {/*<Button title="btn"  onPress={()=>{this.setState({barcodeModalVisible:true})}} /> */}
       
-
-
-
-
+      {/*__________FOOS ITEM LIST___________-*/}
        <List> 
           {listData.map((item,i)=>{
             return (
                <MyFoodList 
-                onPress={this.parentAlert} 
+                onPress={this.itemClickHandler} 
                 elementkey={i} 
                 title={item.label} 
                 measure={item.measures[0]} 
@@ -107,8 +103,8 @@ handleFoodListItemClick(food_uri) {
         onRequestClose={() => {
           alert('Modal has been closed.');
         }}>
-
-        <View style={{marginTop: 22}}>
+        
+        <ScrollView style={{marginTop: 22}}>
           <View>
             <Button title='Go Back' onPress={()=>{
               this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
@@ -121,7 +117,7 @@ handleFoodListItemClick(food_uri) {
               quantity={this.state.quantity} 
               measure={this.state.measure} />
           </View>
-        </View>
+        </ScrollView>
 
         </Modal>
       </View>
