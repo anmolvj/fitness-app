@@ -32,8 +32,10 @@ static propTypes = {
     }
     console.log(this.props.data.getNutrient);
     return (
-        <View><Text>Success!</Text></View>  
-    );
+        <View>
+         <Text>{JSON.stringify(this.props.data.getNutrient,null,2)}</Text>
+        </View>  
+    ); 
   }
 
 }

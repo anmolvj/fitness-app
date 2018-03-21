@@ -34,7 +34,7 @@ class MealScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} >
 
       {/*_______ CONTAINER FOR BARCODE BUTTON AND SEARCH BOX_________*/}
       <View style={{
