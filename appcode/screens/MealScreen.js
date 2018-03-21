@@ -75,7 +75,7 @@ class MealScreen extends React.Component {
         />
       </View>
 
-      {/*_______ INGRIDIENT LIST_________*/}
+      {/*_______ ENHANCED INGRIDIENT LIST_________*/}
        <IngrList currentIngr={this.state.ingr ? this.state.ingr : "Banana"} />
 
 
