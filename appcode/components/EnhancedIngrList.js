@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View, StyleSheet } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -41,6 +41,19 @@ static propTypes = {
             return ( <ListItem
               key={i}
               title={name}
+              subtitle={"Serving Size"}
+              titleStyle={{fontSize: 15}}
+              subtitleStyle={{fontSize: 10}}
+              hideChevron={true}
+              badge={
+                { value: 3, 
+                  textStyle: { 
+                    color: 'white', 
+                  }, 
+                  containerStyle: { 
+                    marginTop: 0,
+                    backgroundColor: "grey" 
+                  } }}
             />)
           })}
        </List>   
@@ -67,3 +80,12 @@ const IngrList = graphql(Query, {
 )(EnhancedIngrList)
 
 export default IngrList;
+
+
+styles = StyleSheet.create({
+  containerStyle: {
+    fontSize: 5
+  },
+  
+})
+
