@@ -1,9 +1,12 @@
+{/*__ LIBRARY IMPORTS___*/}
 import React from 'react';
 import { Text, TextInput, View, StyleSheet, Modal, Button, ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+
+{/*___ MY COMPONENT IMPORTS___*/}
 import MyFoodList from './MyFoodList';
 import NutrientData from './NutrientData';
 import NutrientModal from '../components/EnhancedNutrientModal';

@@ -1,17 +1,21 @@
+{/*__ LIBRARY IMPORTS___*/}
 import React from 'react';
 import { Platform, ScrollView, StyleSheet, Text, Button, Modal, TouchableHighlight, TextInput, View, Image } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
-import Header from '../components/Header';
-import BarcodeScannerExample from '../components/BarcodeScannerExample';
 import { SearchBar, Card, List, ListItem } from 'react-native-elements'
-import { APP_KEY, APP_ID } from '../components/ApiKeys';
-import IngrList from '../components/EnhancedIngrList';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
 
+{/*___ MY COMPONENT IMPORTS___*/}
+import Header from '../components/Header';
 import NutrientData from '../components/NutrientData';
+import IngrList from '../components/EnhancedIngrList';
+import BarcodeScannerExample from '../components/BarcodeScannerExample';
+import { APP_KEY, APP_ID } from '../components/ApiKeys';
+
+
 
 class MealScreen extends React.Component {
   constructor(props) {
@@ -70,7 +74,8 @@ class MealScreen extends React.Component {
             borderRadius: 20
           }}
           onChangeText={(text) => {this._handleOnChangeText(text)}}
-          value={this.state.ingr}
+          value={this.state.ingr? this.state.ingr: "Banana"}
+          clearTextOnFocus={true}
           placeholder="Search Food"
         />
       </View>
