@@ -6,29 +6,31 @@ class MyFoodList extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      title: props.title,
+      name: props.name,
+      brand: props.brand,
       food_uri: props.food_uri,
-      measure: props.measure,
+      calorie: props.calorie,
       elementkey: props.elementkey,
+      item: props.item
     };
     
   }
 
   _handlePress(){	
-    this.props.onPress(this.state.food_uri);
+    this.props.onPress(this.state.item);
 }
   render() {
     return (
       <ListItem
           onPress={()=>{this._handlePress()}}
           key={this.state.elementkey}
-          title={this.state.title}
-          subtitle={"Serving Size"}
+          title={this.state.name}
+          subtitle={this.state.brand}
           titleStyle={{fontSize: 15}}
           subtitleStyle={{fontSize: 10}}
           hideChevron={true}
           badge={
-            { value: this.state.measure, 
+            { value: this.state.calorie, 
               textStyle: { 
                 color: 'white', 
               }, 

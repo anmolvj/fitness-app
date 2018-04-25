@@ -1,8 +1,8 @@
 {/*__ LIBRARY IMPORTS___*/}
 import React from 'react';
-import { Platform, ScrollView, StyleSheet, Text, Button, Modal, TouchableHighlight, TextInput, View, Image } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, Modal, TouchableHighlight, TextInput, View, Image } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
-import { SearchBar, Card, List, ListItem } from 'react-native-elements'
+import { SearchBar, Card, List, ListItem, Button, Icon } from 'react-native-elements'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ class MealScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingr: "",
+      food: "",
       barcodeModalVisible: false,
     };
   }
@@ -74,14 +74,14 @@ class MealScreen extends React.Component {
             borderRadius: 20
           }}
           onChangeText={(text) => {this._handleOnChangeText(text)}}
-          value={this.state.ingr? this.state.ingr: "Banana"}
+          value={this.state.food? this.state.food: "Banana"}
           clearTextOnFocus={true}
           placeholder="Search Food"
         />
       </View>
 
       {/*_______ ENHANCED INGRIDIENT LIST_________*/}
-       <IngrList currentIngr={this.state.ingr ? this.state.ingr : "Banana"} />
+       <IngrList currentIngr={this.state.food ? this.state.food : "Banana"} />
 
 
       {/*__________BARCODE MODAL___________-*/}
@@ -96,7 +96,27 @@ class MealScreen extends React.Component {
 
           <View style={{marginTop: 22}}>
             <View>
-              <Button title='Go Back' onPress={()=>{
+              <Button 
+              icon={
+                <Icon
+                  name='arrow-left'
+                  size={15}
+                  color='white'
+                />
+              }
+              iconLeft
+              title='Go Back'
+              titleStyle={{ fontWeight: "700" }}
+              buttonStyle={{
+                backgroundColor: "rgba(92, 99,216, 1)",
+                width: 300,
+                height: 45,
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 5
+              }}
+              containerStyle={{ marginTop: 20 }}
+              onPress={()=>{
                 this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
               }} />
 
@@ -114,8 +134,8 @@ class MealScreen extends React.Component {
   }
 
   _handleOnChangeText = (text) => {
-    this.setState({ingr: text},()=>{
-      console.log(this.state.ingr)
+    this.setState({food: text},()=>{
+      console.log(this.state.food)
     });
     
   };
