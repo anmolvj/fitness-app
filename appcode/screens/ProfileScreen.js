@@ -14,7 +14,7 @@ import { MonoText } from '../components/StyledText';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
-    title: 'Proflie',
+    title: 'Profile',
   };
 
   render() {

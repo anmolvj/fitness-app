@@ -1,6 +1,7 @@
 import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import { Facebook } from "expo";
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
@@ -15,15 +16,22 @@ const RootStackNavigator = StackNavigator(
   {
     navigationOptions: () => ({
       headerTitleStyle: {
-        fontWeight: 'normal',
+        fontWeight: 'bold',
+        color: 'white'
+      },
+      headerStyle: { 
+        backgroundColor: '#ff4d4d' 
       },
     }),
   }
 );
 
 export default class RootNavigator extends React.Component {
+ 
+
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
+    
   }
 
   componentWillUnmount() {
