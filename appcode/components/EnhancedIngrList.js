@@ -1,7 +1,7 @@
 {/*__ LIBRARY IMPORTS___*/ }
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, Modal, Button, ScrollView } from 'react-native';
-import { List, ListItem } from 'react-native-elements'
+import { Text, TextInput, View, StyleSheet, Modal, ScrollView } from 'react-native';
+import { List, ListItem, Button } from 'react-native-elements'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
@@ -66,12 +66,6 @@ class EnhancedIngrList extends React.Component {
       )
     }
 
-    {/*
-     console.log(this.props.data.findFood.map((elm)=>{
-      console.log(elm.name);
-    }));
-  */}
-
     let listData = this.props.data.findFood.map((elm) => {
       return ({
         name: elm.name,
@@ -99,6 +93,8 @@ class EnhancedIngrList extends React.Component {
         images_front_full_url: elm.images_front_full_url
       });
     })
+
+    console.log(listData.length);
 
     return (
 
@@ -137,9 +133,16 @@ class EnhancedIngrList extends React.Component {
 
             <ScrollView style={{ marginTop: 22 }}>
               <View>
-                <Button title='Go Back' onPress={() => {
-                  this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
-                }} />
+                <Button
+                  text='X'
+                  titleStyle={{ fontWeight: "700" }}
+                  buttonStyle={styles.modalCloseButton}
+                  containerStyle={{ marginTop: 20 }}
+                  onPress={() => {
+                    this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
+                  }} />
+
+               
 
                 {/* NUTRIENT MODAL
             <NutrientModal 
@@ -199,4 +202,13 @@ const IngrList = graphql(Query, {
 
 export default IngrList;
 
-
+const styles = StyleSheet.create({
+  modalCloseButton: {
+    backgroundColor: "red",
+    width: 50,
+    height: 50,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 50
+  },
+});
