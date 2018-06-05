@@ -27,6 +27,7 @@ export default TabNavigator(
   },
   {
     navigationOptions: ({ navigation }) => ({
+      headerLeft: null,
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -60,6 +61,6 @@ export default TabNavigator(
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     animationEnabled: true,
-    swipeEnabled: false,
+    swipeEnabled: false
   }
 );

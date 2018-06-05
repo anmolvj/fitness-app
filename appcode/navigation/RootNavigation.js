@@ -5,33 +5,48 @@ import { Facebook } from "expo";
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 
-{/*StackNavigator(RouteConfigs, StackNavigatorConfig);*/}
-const RootStackNavigator = StackNavigator( 
+{/*StackNavigator(RouteConfigs, StackNavigatorConfig);*/ }
+const RootStackNavigator = StackNavigator(
   {
     Main: {
       screen: MainTabNavigator,
     },
+    Login: {
+      screen: LoginScreen,
+    },
+    Welcome: {
+      screen: WelcomeScreen,
+    },
+    Signup: {
+      screen: SignupScreen,
+    }
+
   },
   {
+    initialRouteName: 'Welcome',
     navigationOptions: () => ({
+      gesturesEnabled: false,
       headerTitleStyle: {
         fontWeight: 'bold',
         color: 'white'
       },
-      headerStyle: { 
-        backgroundColor: '#ff4d4d' 
+      headerStyle: {
+        backgroundColor: '#ff4d4d'
       },
     }),
   }
 );
 
 export default class RootNavigator extends React.Component {
- 
+
 
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
-    
+
   }
 
   componentWillUnmount() {
