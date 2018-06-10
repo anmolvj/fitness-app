@@ -1,64 +1,81 @@
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, AsyncStorage } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
-
+import PureChart from 'react-native-pure-chart';
+import WeightChart from '../components/WeightChart';
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'Profile',
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          
-        </ScrollView>
-      </View>
-    );
-  }
-
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more and more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
+  constructor(props) {
+    super(props);
+    this.state = {
+      myKey: null
     }
   }
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
+  componentWillMount = ()=> {
+    AsyncStorage.getItem('@UserId').then((value)=> this.setState({ 'myKey': value }))
+  }
 
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
+render() {
+  let graphData = [
+    { x: '2018-01-01', y: 30 },
+    { x: '2018-01-02', y: 200 },
+    { x: '2018-01-03', y: 170 },
+    { x: '2018-01-04', y: 250 },
+    { x: '2018-01-05', y: 10 }
+  ]
+
+  console.log("MY KI  --->" + this.state.myKey);
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <WeightChart data={graphData} />
+        <View>
+          <Text>{this.state.myKey}</Text>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+_maybeRenderDevelopmentModeWarning() {
+  if (__DEV__) {
+    const learnMoreButton = (
+      <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
+        Learn more and more
+        </Text>
     );
-  };
+
+    return (
+      <Text style={styles.developmentModeText}>
+        Development mode is enabled, your app will be slower but you can use useful development
+          tools. {learnMoreButton}
+      </Text>
+    );
+  } else {
+    return (
+      <Text style={styles.developmentModeText}>
+        You are not in development mode, your app will run at full speed.
+        </Text>
+    );
+  }
+}
+
+_handleLearnMorePress = () => {
+  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
+};
+
+_handleHelpPress = () => {
+  WebBrowser.openBrowserAsync(
+    'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
+  );
+};
 }
 
 const styles = StyleSheet.create({

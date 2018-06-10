@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
@@ -10,7 +10,7 @@ const Form = t.form.Form;
 const Email = t.subtype(t.String, (email) => {
     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return reg.test(email);
-  });
+});
 
 const User = t.struct({
     email: Email,
@@ -20,25 +20,25 @@ const User = t.struct({
 const formStyles = {
     ...Form.stylesheet,
     controlLabel: {
-      normal: {
-        color: '#404040',
-        fontSize: 18,
-        marginBottom: 7,
-        fontWeight: '600'
-      },
-      error: {
-        color: '#ff4d4d',
-        fontSize: 18,
-        marginBottom: 7,
-        fontWeight: '600'
-      }
+        normal: {
+            color: '#404040',
+            fontSize: 18,
+            marginBottom: 7,
+            fontWeight: '600'
+        },
+        error: {
+            color: '#ff4d4d',
+            fontSize: 18,
+            marginBottom: 7,
+            fontWeight: '600'
+        }
     },
     errorBlock: {
         fontSize: 12,
         marginBottom: 2,
         color: 'red'
-      },
-  }
+    },
+}
 
 const options = {
     fields: {
@@ -59,27 +59,37 @@ const options = {
 class LoginPage extends React.Component {
     static navigationOptions = {
         title: 'Login',
-        
+
     }
 
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
+        this.setUserId = this.setUserId.bind(this);
+    }
+
+    setUserId = (value) => {
+        try {
+            AsyncStorage.setItem('@UserId', value);
+        } catch (error) {
+            console.log("Error saving data" + error);
+        }
     }
 
     onSubmit = (value) => {
         this.props.mutate({
-            variables: { 
+            variables: {
                 email: value.email,
                 password: value.password
             }
         })
-        .then(({ data }) => {
-            console.log('got data --->', data);
-            this.props.navigation.navigate('Main');
-        }).catch((error) => {
-            console.log('there was an error sending the query', error);
-        });
+            .then(({ data }) => {
+                console.log('I received this data --->', data.signinUser.user.id);
+                this.setUserId(data.signinUser.user.id);
+                this.props.navigation.navigate('Main');
+            }).catch((error) => {
+                console.log('there was an error sending the query', error);
+            });
     }
 
     handleSubmit = () => {
@@ -91,28 +101,29 @@ class LoginPage extends React.Component {
 
     render() {
         const { navigate } = this.props.navigation;
+
         return (
             <View style={styles.container}>
-            <View style={styles.mainContainer}>
+                <View style={styles.mainContainer}>
 
-            <View style={styles.logoContainer}>
+                    <View style={styles.logoContainer}>
 
-            </View>
+                    </View>
 
-            <View style={styles.formContainer}>
-                <Form
-                    ref={c => this._form = c}
-                    type={User}
-                    options={options}
-                     />
-                <Button
-                    text='Log In'
-                    onPress={this.handleSubmit}
-                />
-            </View>
+                    <View style={styles.formContainer}>
+                        <Form
+                            ref={c => this._form = c}
+                            type={User}
+                            options={options}
+                        />
+                        <Button
+                            text='Log In'
+                            onPress={this.handleSubmit}
+                        />
+                    </View>
 
 
-        </View>
+                </View>
             </View>
         );
     }
