@@ -18,8 +18,9 @@ class LoggedFoodList extends React.Component {
     }
 
     render() {
-
+        
         return (
+            
             <List containerStyle={styles.containerStyle} >
                 {this.props.data.map((item, i) => {
                     return (

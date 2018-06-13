@@ -1,14 +1,16 @@
 import React from 'react';
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, AsyncStorage } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Avatar } from 'react-native-elements';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import PureChart from 'react-native-pure-chart';
 import WeightChart from '../components/WeightChart';
+import { Gravatar, Indicator, Progress } from 'nachos-ui';
+
 
 export default class ProfileScreen extends React.Component {
   static navigationOptions = {
-    title: 'Profile',
+    title: 'Profile'
   };
 
   constructor(props) {
@@ -18,64 +20,183 @@ export default class ProfileScreen extends React.Component {
     }
   }
 
-  componentWillMount = ()=> {
-    AsyncStorage.getItem('@UserId').then((value)=> this.setState({ 'myKey': value }))
+  componentWillMount = () => {
+    AsyncStorage.getItem('@UserId').then((value) => this.setState({ 'myKey': value }))
   }
 
-render() {
-  let graphData = [
-    { x: '2018-01-01', y: 30 },
-    { x: '2018-01-02', y: 200 },
-    { x: '2018-01-03', y: 170 },
-    { x: '2018-01-04', y: 250 },
-    { x: '2018-01-05', y: 10 }
-  ]
+  render() {
+    let graphData = [{
+      data: [
+        { x: '2018-01-01', y: 130 },
+        { x: '2018-01-02', y: 135 },
+        { x: '2018-01-03', y: 131 },
+        { x: '2018-01-04', y: 127 },
+        { x: '2018-01-05', y: 137 },
+        { x: '2018-01-06', y: 140 }],
+      color: '#ff4d4d'
+    }
+    ]
 
-  console.log("MY KI  --->" + this.state.myKey);
-  return (
-    <View style={styles.container}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <WeightChart data={graphData} />
-        <View>
-          <Text>{this.state.myKey}</Text>
-        </View>
-      </ScrollView>
-    </View>
-  );
-}
-
-_maybeRenderDevelopmentModeWarning() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more and more
-        </Text>
-    );
-
+    console.log("MY KI  --->" + this.state.myKey);
     return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled, your app will be slower but you can use useful development
+      <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <View style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}>
+            <View style={{
+              flexDirection: "row",
+              justifyContent: "space-around"
+            }}
+            >
+
+              <Gravatar
+                md5='313cbdb52db5b6bb6b3f14bc4ddae461'
+                size={100}
+                circle
+                style={{
+                  marginLeft: 20,
+                }}
+              />
+
+            </View>
+
+            <View style={{
+              marginRight: 50
+            }}
+            >
+              <Text style={{
+                fontWeight: "bold",
+                fontSize: 34
+              }}>Jacob Tyler</Text>
+              <Text style={{
+                fontWeight: "bold",
+                fontSize: 14,
+                marginTop:7,
+              }}>San Francisco Bay Area</Text>
+
+            </View>
+          </View>
+          <View
+            style={{
+              borderBottomColor: '#ff4d4d',
+              borderBottomWidth: 4,
+              borderRadius: 5,
+              width: 170,
+              marginTop: 0,
+              marginBottom: 15,
+              marginLeft: 180
+
+            }}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: 'space-around',
+            }}>
+
+            <View>
+              <Icon
+                name='weight'
+                type='material-community'
+                color='#1f6aa8'
+                raised
+              />
+              <Text style={{
+                marginLeft: 13,
+                fontSize: 15,
+                fontWeight: "bold",
+              }}
+              >167 lb</Text>
+            </View>
+            <View>
+              <Icon
+                name='birthday-cake'
+                type='font-awesome'
+                color='#b2f441'
+                raised
+              />
+              <Text style={{
+                marginLeft: -5,
+                fontSize: 15,
+                fontWeight: "bold",
+              }}
+              >Jan-1-96</Text>
+            </View>
+            <View>
+              <Icon
+                name='intersex'
+                type='font-awesome'
+                color='#f44271'
+                raised
+              />
+              <Text style={{
+                marginLeft: 15,
+                fontSize: 15,
+                fontWeight: "bold",
+              }}
+              >Male</Text>
+            </View>
+
+
+          </View>
+          <View
+            style={{
+              borderBottomColor: '#ff4d4d',
+              borderBottomWidth: 4,
+              borderRadius: 5,
+              width: 340,
+              marginTop: 10,
+              marginBottom: 20,
+              marginLeft: 30
+
+            }}
+          />
+          <WeightChart data={graphData} />
+
+
+
+          <View>
+            {/*<Text>This is the logged in used id -> {this.state.myKey}</Text>*/}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+
+  _maybeRenderDevelopmentModeWarning() {
+    if (__DEV__) {
+      const learnMoreButton = (
+        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
+          Learn more and more
+        </Text>
+      );
+
+      return (
+        <Text style={styles.developmentModeText}>
+          Development mode is enabled, your app will be slower but you can use useful development
           tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode, your app will run at full speed.
         </Text>
-    );
+      );
+    } else {
+      return (
+        <Text style={styles.developmentModeText}>
+          You are not in development mode, your app will run at full speed.
+        </Text>
+      );
+    }
   }
-}
 
-_handleLearnMorePress = () => {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-};
+  _handleLearnMorePress = () => {
+    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
+  };
 
-_handleHelpPress = () => {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-  );
-};
+  _handleHelpPress = () => {
+    WebBrowser.openBrowserAsync(
+      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
+    );
+  };
 }
 
 const styles = StyleSheet.create({

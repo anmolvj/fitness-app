@@ -87,7 +87,14 @@ class SignupPage extends React.Component {
                 email: value.email,
                 password: value.password,
                 weight: value.weight,
-                height: value.height  
+                height: value.height,
+                date: "01-01-2018",
+                activity:"ACTIVE",
+                caloriegoal:2500,
+                calorieTotal:2000,
+                breakfast: "BREAKFAST",
+                lunch: "LUNCH",
+                dinner: "DINNER" 
             }
         })
         .then(({ data }) => {
@@ -165,11 +172,46 @@ const styles = StyleSheet.create({
 
 
 const Mutation = gql`
-  mutation Mutation($username: String!, $email: String!, $password: String!, $weight: String!, $height: String!, ) {
-    createUser( authProvider: {email:{email:$email,password:$password}}, username: $username, weight: $weight, height: $height) {
-      id
+  mutation Mutation($username: String!, 
+  $email: String!, 
+  $password: String!, 
+  $weight: String!, 
+  $height: String!, 
+  $date: String!,
+  $activity: ActivityEnum,
+  $caloriegoal: Int!,
+  $calorieTotal: Int!,
+  $breakfast: MealNameEnum,
+  $lunch: MealNameEnum,
+  $dinner: MealNameEnum
+
+  ) {
+    createUser( 
+        authProvider: {email:{email:$email,password:$password}}, 
+        username: $username, 
+        weight: $weight, 
+        height: $height,
+        day: {
+            date:$date,
+            weight:$weight,
+            activity:$activity,
+            caloriegoal:$caloriegoal,
+            calorieTotal:$calorieTotal,
+            meals: [
+                {
+                    name:$breakfast,
+                     },
+                {
+                    name:$lunch,
+                    },
+                {
+                    name:$dinner,
+                 }
+            ]
+        }){
+    id
+   }
     }
-  }
 `
 const SignupScreen = graphql(Mutation)(SignupPage);
 

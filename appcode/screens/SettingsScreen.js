@@ -1,8 +1,9 @@
 {/*__ LIBRARY IMPORTS___*/ }
 import React from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Switch, FlatList, SectionList } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Switch, FlatList, SectionList, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, ListItem } from 'react-native-elements';
+import { Input, ListItem, Button } from 'react-native-elements';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 {/*___ MY COMPONENT IMPORTS___*/ }
 
 
@@ -14,26 +15,56 @@ export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'Settings',
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      "users":
+        [
+          {
+            "name": "Proxima Midnight",
+          }
+        ],
+      "sectionTitle": "Allergies",
+      sections: [
+        { title: 'Allergies', data: ['Proxima Midnight'] }
+      ]
+    };
+    this.setUserId = this.setUserId.bind(this);
+  }
 
-  state = {
-    "users":
-      [
-        {
-          "name": "Proxima Midnight",
-        }
-      ],
-    "sectionTitle": "Allergies",
-    sections: [
-      { title: 'Allergies', data: ['Proxima Midnight'] }
-    ]
+  setUserId = () => {
+    try {
+      AsyncStorage.setItem('@UserId', "");
+    } catch (error) {
+      console.log("Error saving data" + error);
+    }
   }
 
 
   render() {
-    /* Go ahead and delete ExpoConfigView and replace it with your
-     * content, we just wanted to give you a quick view of your config */
+    const { navigate } = this.props.navigation;
     return (
       <View >
+        <Button
+          text="LOGOUT"
+          buttonStyle={{ width: 200, height: 70, backgroundColor: '#960000', margin: 10 }}
+          textStyle={{
+            fontSize: 20
+          }}
+          onPress={() => {
+            this.setUserId();
+            navigate('Welcome');
+          }}
+          icon={
+            <EntypoIcon
+              name={'log-out'}
+              size={35}
+              color='white'
+              raised
+            />
+          }
+          iconRight
+        />
         {/*___ 
       <FlatList
           data={this.state.users}
@@ -54,7 +85,7 @@ export default class SettingsScreen extends React.Component {
           keyExtractor={item => item.email}
         />
 ___*/ }
-        <SectionList
+        {/*<SectionList
           sections={this.state.sections}
           keyExtractor={(item, index) => item + index}
 
@@ -75,7 +106,7 @@ ___*/ }
               </View>
             )
           }}
-        />
+        />*/}
       </View>
     );
   }

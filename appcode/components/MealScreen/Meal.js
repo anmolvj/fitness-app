@@ -33,7 +33,7 @@ class Meal extends React.Component {
 
                 {/*ADD BUTTON*/}
                 <ListItem
-                    onPress={() => { this.handleAddFood() }}
+                    onPress={() => { this.handleAddFood(this.state.mealTitle) }}
                     key={1}
                     title={"Add Food"}
                     titleStyle={{ fontSize: 15 }}

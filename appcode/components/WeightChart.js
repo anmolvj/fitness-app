@@ -7,7 +7,9 @@ import PureChart from 'react-native-pure-chart';
 const WeightChart = (props) => {
     const { textStyle, viewStyle } = styles;
     return (
-        <View>
+        <View style={{
+            
+          }}>
             <PureChart
                 data={props.data}
                 type='line'

@@ -3,9 +3,12 @@ import { Text, View, StyleSheet, Alert, TextInput } from 'react-native';
 import { Constants, BarCodeScanner, Permissions } from 'expo';
 
 export default class App extends Component {
-  state = {
-    hasCameraPermission: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasCameraPermission: null
+    };
+  }
 
   componentDidMount() {
     this._requestCameraPermission();
@@ -19,10 +22,25 @@ export default class App extends Component {
   };
 
   _handleBarCodeRead = data => {
-    Alert.alert(
-      'Scan successful!',
-      JSON.stringify(data)
-    );
+    console.log('Scan successful!', JSON.stringify(data));
+    var e = "02289902"
+    var a = "" //022000008992
+    if (e.charAt(0) !== '0' && e.charAt(0) !== '1')
+      a = "";
+    else if (e.charAt(6) == 0 || e.charAt(6) == 1 || e.charAt(6) == 2)
+      a = e.substring(0, 3) + e.charAt(6) + "0000" + e.substring(3, 6) + e.charAt(7);
+    else if (e.charAt(6) == 3)
+      a = e.substring(0, 4) + "00000" + e.substring(4, 6) + e.charAt(7);
+    else if (e.charAt(6) == 4)
+      a = e.substring(0, 5) + "00000" + e.charAt(5) + e.charAt(7);
+    else if (e.charAt(6) == 5 || e.charAt(6) == 6 || e.charAt(6) == 7 || e.charAt(6) == 8 || e.charAt(6) == 9)
+      a = e.substring(0, 6) + "0000" + e.charAt(6) + e.charAt(7);
+
+
+
+    console.log("final barcode--> " + a);
+    //this.props.onSubmit(JSON.stringify(data.data));
+    this.props.onSubmit(a);
   };
 
   render() {
@@ -35,6 +53,7 @@ export default class App extends Component {
             <View>
               <BarCodeScanner
                 onBarCodeRead={this._handleBarCodeRead}
+                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.upc_e]}
                 style={styles.scanner}
               />
               <TextInput

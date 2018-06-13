@@ -1,10 +1,12 @@
 {/*__ LIBRARY IMPORTS___*/ }
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, Modal, ScrollView } from 'react-native';
+import { Text, TextInput, View, StyleSheet, Modal, ScrollView, AsyncStorage } from 'react-native';
 import { List, ListItem, Button } from 'react-native-elements'
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import { Spinner } from 'nachos-ui';
 
 {/*___ MY COMPONENT IMPORTS___*/ }
 import MyFoodList from './MyFoodList';
@@ -26,15 +28,33 @@ class EnhancedIngrList extends React.Component {
     super(props);
     this.state = {
       barcodeModalVisible: false,
-      selectedFood: null
+      selectedFood: null,
+      mealName: this.props.mealName
     };
     this.itemClickHandler = this.itemClickHandler.bind(this);
+    this.handleFoodAdd = this.handleFoodAdd.bind(this);
+  }
+
+  componentWillMount = () => {
+    AsyncStorage.getItem('@UserId').then((value) => this.setState({ 'myKey': value }))
   }
 
   itemClickHandler(item) {
     this.handleFoodListItemClick(item);
   }
 
+  handleFoodAdd = () => {
+    var sendFood = {};
+    sendFood.id = this.state.myKey;
+    sendFood.mealname = this.state.mealName.toUpperCase();
+    sendFood.foodname = this.state.selectedFood.name;
+    sendFood.brand = this.state.selectedFood.brand;
+    sendFood.calorie = this.state.selectedFood.calorie;
+    sendFood.date = "01-01-2018";
+
+    console.log(sendFood);
+    this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
+  }
 
   setBarcodeModalVisible(visible) {
     this.setState({ barcodeModalVisible: visible });
@@ -56,7 +76,14 @@ class EnhancedIngrList extends React.Component {
 
     if (this.props.data.loading || !this.props.data.findFood) {
       return (
-        <View><Text>Loading</Text></View>
+        <View style={{
+          margin: 15, 
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Spinner />
+        </View>
       )
     }
 
@@ -94,6 +121,7 @@ class EnhancedIngrList extends React.Component {
       });
     })
 
+   
     console.log(listData.length);
 
     return (
@@ -134,24 +162,46 @@ class EnhancedIngrList extends React.Component {
             <ScrollView style={{ marginTop: 22 }}>
               <View>
                 <Button
-                  text='X'
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles.modalCloseButton}
-                  containerStyle={{ marginTop: 20 }}
+                  text="RETURN"
+                  buttonStyle={{ width: 200, height: 70, backgroundColor: '#f45841', margin: 10, borderRadius:50 }}
+                  textStyle={{
+                    fontSize: 20
+                  }}
                   onPress={() => {
                     this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
-                  }} />
+                  }}
+                  icon={
+                    <EntypoIcon
+                      name={'back'}
+                      size={35}
+                      color='white'
+                      raised
+                    />
+                  }
+                />
+                <Button
+                  text="ADD"
+                  buttonStyle={{ width: 200, height: 70, backgroundColor: '#4164f4', margin: 10, borderRadius:50 }}
+                  textStyle={{
+                    fontSize: 20
+                  }}
+                  onPress={this.handleFoodAdd}
+                  icon={
+                    <EntypoIcon
+                      name={'add-to-list'}
+                      size={35}
+                      color='white'
+                      raised
+                    />
+                  }
+                  iconRight
+                />
 
-               
 
-                {/* NUTRIENT MODAL
-            <NutrientModal 
-              uri={this.state.modalFoodUri} 
-              yield={this.state.yield} 
-              quantity={this.state.quantity} 
-              measure={this.state.measure} />
-              */}
+
+              
                 <SimpleModal data={this.state.selectedFood} />
+                
               </View>
             </ScrollView>
 

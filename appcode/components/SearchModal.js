@@ -1,11 +1,12 @@
 {/*__ LIBRARY IMPORTS___*/ }
 import React from 'react';
-import { ScrollView, StyleSheet, Modal, View } from 'react-native';
+import { ScrollView, StyleSheet, Modal, View, Text } from 'react-native';
 import { SearchBar, Card, List, ListItem, Button, Icon } from 'react-native-elements'
 {/*___ MY COMPONENT IMPORTS___*/ }
 import SearchBox from './SearchBox';
 import BarcodeButton from './BarcodeButton';
 import IngrList from './EnhancedIngrList';
+import BarcodeIngrList from './BarcodeIngridientList';
 import NutrientData from './NutrientData';
 import BarcodeScannerExample from './BarcodeScannerExample';
 
@@ -15,10 +16,14 @@ class SearchModal extends React.Component {
     super(props);
     this.state = {
       food: "",
-      barcodeModalVisible: false
+      barcode: "",
+      barcodeSearched: false,
+      barcodeModalVisible: false,
+      mealName: this.props.mealName
     };
     this.changeText = this.changeText.bind(this);
     this.submitText = this.submitText.bind(this);
+    this.submitBarcode = this.submitBarcode.bind(this);
     this.barcodeOnPress = this.barcodeOnPress.bind(this);
     this.closeBarcodeModal = this.closeBarcodeModal.bind(this);
   }
@@ -28,9 +33,18 @@ class SearchModal extends React.Component {
   }
 
   submitText = (text) => {
-    this.setState({ food: text }, () => {
+    this.setState({ food: text, barcodeSearched: false }, () => {
       console.log(this.state.food)
     });
+  }
+
+  submitBarcode = (barcode) => {
+    this.setState({ barcode: barcode }, () => {
+      this.setState({barcodeSearched: true});
+      console.log("PARENT BARCODE DATA -> " + this.state.barcode);
+      console.log("Barcode searched -> " + this.state.barcodeSearched)
+    });
+    this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
   }
 
   changeText = (text) => {
@@ -59,15 +73,15 @@ class SearchModal extends React.Component {
           titleStyle={{ fontWeight: "700" }}
           buttonStyle={styles.modalCloseButton}
           containerStyle={{ marginTop: 20 }}
-          onPress={() => { this.handleClose()}} />
+          onPress={() => { this.handleClose() }} />
 
         <View style={styles.searchBarContainer}>
           <BarcodeButton onPress={this.barcodeOnPress} />
           <SearchBox onSubmit={this.submitText} />
         </View>
-
-        <IngrList currentIngr={this.state.food} />
-
+        
+        {this.state.barcodeSearched ? (<BarcodeIngrList barcode={this.state.barcode} mealName={this.state.mealName}/> ) : (<IngrList currentIngr={this.state.food} mealName={this.state.mealName}/>)}
+ 
         {/*__________BARCODE MODAL___________-*/}
         <View style={{ marginTop: 22 }}>
           <Modal
@@ -83,12 +97,12 @@ class SearchModal extends React.Component {
                   titleStyle={{ fontWeight: "700" }}
                   buttonStyle={styles.modalCloseButton}
                   containerStyle={{ marginTop: 20 }}
-                  onPress={() => { 
+                  onPress={() => {
                     this.setBarcodeModalVisible(!this.state.barcodeModalVisible);
                   }} />
 
                 {/* Model Data Goes Here*/}
-                <BarcodeScannerExample />
+                <BarcodeScannerExample onSubmit={this.submitBarcode} />
 
               </View>
             </View>

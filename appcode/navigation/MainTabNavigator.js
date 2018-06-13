@@ -18,9 +18,6 @@ export default TabNavigator(
     Meal: {
       screen: MealScreen,
     },
-    Fitness: {
-      screen: FitnessScreen,
-    },
     Settings: {
       screen: SettingsScreen,
     }

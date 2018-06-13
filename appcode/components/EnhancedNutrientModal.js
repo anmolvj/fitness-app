@@ -10,13 +10,13 @@ import MyFoodList from './MyFoodList';
 
 class EnhancedNutrientModal extends React.Component {
 
-static propTypes = {
+  static propTypes = {
     data: PropTypes.shape({
-        loading: PropTypes.bool,
-        error: PropTypes.object,
-        getNutrient: PropTypes.json,
+      loading: PropTypes.bool,
+      error: PropTypes.object,
+      getNutrient: PropTypes.json,
     }).isRequired,
-}
+  }
 
   render() {
     if (this.props.data.error) {
@@ -25,17 +25,17 @@ static propTypes = {
     }
 
     if (this.props.data.loading || !this.props.data.getNutrient) {
-        
+
       return (
         <View><Text>Still Loading</Text></View>
-    )
+      )
     }
     console.log(this.props.data.getNutrient);
     return (
-        <View>
-         <Text>{JSON.stringify(this.props.data.getNutrient,null,2)}</Text>
-        </View>  
-    ); 
+      <View>
+        <Text>{JSON.stringify(this.props.data.getNutrient, null, 2)}</Text>
+      </View>
+    );
   }
 
 }
@@ -47,15 +47,15 @@ const Query = gql`
     }}`
 
 const NutrientModal = graphql(Query, {
-    options:(ownProps) => ({
-        variables: {
-          yield: ownProps.yield,
-          quantity: ownProps.quantity,
-          uri: ownProps.uri,
-          measure: ownProps.measure
-        }
-      })
-  }
+  options: (ownProps) => ({
+    variables: {
+      yield: ownProps.yield,
+      quantity: ownProps.quantity,
+      uri: ownProps.uri,
+      measure: ownProps.measure
+    }
+  })
+}
 )(EnhancedNutrientModal)
 
 export default NutrientModal;
