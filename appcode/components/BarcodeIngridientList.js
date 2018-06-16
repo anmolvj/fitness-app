@@ -241,6 +241,7 @@ const BarcodeIngrList = graphql(Query, {
 }
 )(BarcodeIngridientList)
 
+
 export default BarcodeIngrList;
 
 const styles = StyleSheet.create({

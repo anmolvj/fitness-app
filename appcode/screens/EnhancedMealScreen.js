@@ -90,18 +90,18 @@ class EnhancedMealPage extends React.Component {
     var lunchData = {}
     var dinnerData = {}
 
-if(this.props.data.User.day[0].meals[0]){   
+if(this.props.data.User!==undefined){   
     breakfastData.title = JSON.stringify(this.props.data.User.day[0].meals[0].foods[0].name) ;
     breakfastData.subtitle = JSON.stringify(this.props.data.User.day[0].meals[0].foods[0].brand);
     breakfastData.calories = JSON.stringify(this.props.data.User.day[0].meals[0].foods[0].calorie);
 }
-if(this.props.data.User.day[0].meals[1]){
+if(this.props.data.User.day[0].meals[1].foods[0].name!=undefined){
     
     lunchData.title = JSON.stringify(this.props.data.User.day[0].meals[1].foods[0].name) ;
     lunchData.subtitle = JSON.stringify(this.props.data.User.day[0].meals[1].foods[0].brand);
     lunchData.calories = JSON.stringify(this.props.data.User.day[0].meals[1].foods[0].calorie);
 }
-if(this.props.data.User.day[0].meals[2]){
+if(this.props.data.User.day[0].meals[2].foods[0].name!=undefined){
     
     dinnerData.title = JSON.stringify(this.props.data.User.day[0].meals[2].foods[0].name) ;
     dinnerData.subtitle = JSON.stringify(this.props.data.User.day[0].meals[2].foods[0].brand);
