@@ -12,7 +12,7 @@
   </a>
 </p>
 
-> A mobile app built using React Native to help you track your workouts and diet with features such as the ability to collect a food's nutritional information by scanning it's package barcode using the phone's camera.
+> A mobile app built using React Native to help you track your workouts and diet with features such as the ability to collect a food's nutritional information by scanning it's package barcode using the phone's camera and the ability to create exercise plans.
 
 
 ## Install
