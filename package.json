@@ -3,5 +3,27 @@
     "chart.js": "^2.7.2",
     "lodash": "^4.17.10",
     "react-chartkick": "^0.2.0"
+  },
+  "name": "fitness-app",
+  "version": "1.0.0",
+  "main": "appcode/App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anmolvj/fitness-app.git"
+  },
+  "author": "Anmol Vijayvargiya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anmolvj/fitness-app/issues"
+  },
+  "homepage": "https://github.com/anmolvj/fitness-app#readme",
+  "description": "A mobile app built using React Native to help you track your workouts and diet with features such as the ability to collect a food's nutritional information by scanning it's package barcode using the phone's camera",
+  "dependencies": {
+    "chart.js": "^2.7.2",
+    "lodash": "^4.17.10",
+    "react-chartkick": "^0.2.0"
   }
 }
